@@ -5,11 +5,11 @@ import PromptModal from "../components/layout/PromptModal";
 
 const Quiz = () => {
   const [questions, setQuestions] = useState([]);
-  const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [selectedAnswers, setSelectedAnswers] = useState<any>({});
   const [score, setScore] = useState(localStorage.getItem("quizScore"));
   const [submitted, setSubmitted] = useState(localStorage.getItem("quizSubmitted") === "true");
   const [isPromptOpen, setPromptOpen] = useState(false);
-  const [activeQuestionIndex, setActiveQuestionIndex] = useState(null);
+  const [activeQuestionIndex, setActiveQuestionIndex] = useState<number>(-1);
 
   const username = localStorage.getItem("username");
 
@@ -26,7 +26,7 @@ const Quiz = () => {
     setSelectedAnswers({ ...selectedAnswers, [questionIndex]: option });
   };
 
-  const getHint = async (questionIndex: number, question: string, userQuestion: string) => {
+  const getHint = async (question: string, userQuestion: string) => {
     if (!userQuestion) return;
 
     try {
@@ -78,14 +78,14 @@ const Quiz = () => {
         </div>
       ))}
 
-      {isPromptOpen && activeQuestionIndex !== null && (
+      {isPromptOpen && activeQuestionIndex !== -1 && (
         <PromptModal
           isOpen={isPromptOpen}
-          onClose={() => { setPromptOpen(false); setActiveQuestionIndex(null); }}
+          onClose={() => { setPromptOpen(false); setActiveQuestionIndex(-1); }}
           onSubmit={(userQuestion) => {
-            getHint(activeQuestionIndex, questions[activeQuestionIndex]["Question"], userQuestion);
+            getHint(questions[activeQuestionIndex]["Question"], userQuestion);
             setPromptOpen(false);
-            setActiveQuestionIndex(null);
+            setActiveQuestionIndex(-1);
           }}
         />
       )}
