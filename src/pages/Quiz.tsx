@@ -8,15 +8,18 @@ const Quiz = () => {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [score, setScore] = useState(localStorage.getItem("quizScore"));
   const [submitted, setSubmitted] = useState(localStorage.getItem("quizSubmitted") === "true");
-  const [aiHelpUsed, setAiHelpUsed] = useState({}); // Tracks AI hints per question
-  const [aiPromptsLeft, setAiPromptsLeft] = useState({});
   const [isPromptOpen, setPromptOpen] = useState(false);
-  const [activeQuestionIndex, setActiveQuestionIndex] = useState(null); // Track active question
+  const [activeQuestionIndex, setActiveQuestionIndex] = useState(null);
 
   const username = localStorage.getItem("username");
 
   useEffect(() => {
-    axios.get("http://localhost:3000/questions").then((res) => setQuestions(res.data));
+    axios.get("https://wip-backend-git-main-raisahils-projects.vercel.app/questions")
+      .then((res) => {
+        const fetchedQuestions = res.data;
+        setQuestions(fetchedQuestions);
+      })
+      .catch((error) => console.error("Error fetching questions:", error));
   }, []);
 
   const selectAnswer = (questionIndex: number, option: string) => {
@@ -24,38 +27,19 @@ const Quiz = () => {
   };
 
   const getHint = async (questionIndex: number, question: string, userQuestion: string) => {
-    if (aiHelpUsed[questionIndex]) {
-      alert("AI help already used for this question!");
-      return;
-    }
-
-    const totalQuestionsUsed = Object.keys(aiHelpUsed).length;
-    if (totalQuestionsUsed >= 3) {
-      alert("AI help used for max 3 questions!");
-      return;
-    }
-
-    if ((aiPromptsLeft[questionIndex] || 3) === 0) {
-      alert("No more AI prompts left for this question!");
-      return;
-    }
-
     if (!userQuestion) return;
 
     try {
-      const response = await axios.post("http://localhost:3000/ai-help", { username, question, userQuestion });
+      const response = await axios.post("https://wip-backend-git-main-raisahils-projects.vercel.app/ai-help", { username, question, userQuestion });
       alert(`Hint: ${response.data.hint}`);
-
-      setAiHelpUsed({ ...aiHelpUsed, [questionIndex]: true });
-      setAiPromptsLeft({ ...aiPromptsLeft, [questionIndex]: (aiPromptsLeft[questionIndex] || 3) - 1 });
     } catch (error) {
-      alert("AI Help failed!");
+      alert("No AI Help Left");
     }
   };
 
   const submitQuiz = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/submit", { username, answers: selectedAnswers });
+      const response = await axios.post("https://wip-backend-git-main-raisahils-projects.vercel.app/submit", { username, answers: selectedAnswers });
       setScore(response.data.score);
       setSubmitted(true);
       localStorage.setItem("quizSubmitted", "true");
@@ -71,7 +55,7 @@ const Quiz = () => {
       <h2 className="text-xl font-bold mb-2">Quiz</h2>
       {questions.map((q, index) => (
         <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
-          <p className="text-lg font-semibold text-gray-700 mb-2">{q[" Question"]}</p>
+          <p className="text-lg font-semibold text-gray-700 mb-2">{q["Question"]}</p>
           <div className="space-y-2">
             {["OptionA", "OptionB", "OptionC", "OptionD"].map((opt) => (
               <label
@@ -94,14 +78,12 @@ const Quiz = () => {
         </div>
       ))}
 
-      {/* Prompt Modal with Correct Question */}
       {isPromptOpen && activeQuestionIndex !== null && (
         <PromptModal
           isOpen={isPromptOpen}
           onClose={() => { setPromptOpen(false); setActiveQuestionIndex(null); }}
-          onSubmit={(userQuestion: string) => {
-            console.log("Question is:", questions[activeQuestionIndex][" Question"]);
-            getHint(activeQuestionIndex, questions[activeQuestionIndex][" Question"], userQuestion);
+          onSubmit={(userQuestion) => {
+            getHint(activeQuestionIndex, questions[activeQuestionIndex]["Question"], userQuestion);
             setPromptOpen(false);
             setActiveQuestionIndex(null);
           }}
