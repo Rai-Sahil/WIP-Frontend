@@ -11,7 +11,7 @@ const Quiz = () => {
   const [isPromptOpen, setPromptOpen] = useState(false);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState<number>(3);
   const [aiHintsLeft, setAiHintsLeft] = useState<any>({}); // Store hints left per question
-  const [currentHint, setCurrentHint] = useState<string>("");
+  const [hint, setHint] = useState<string>("");
 
   const username = localStorage.getItem("username");
 
@@ -48,19 +48,19 @@ const Quiz = () => {
 
     // Check if hints are available
     if (aiHintsLeft[activeQuestionIndex] <= 0) {
-      setCurrentHint("No hints left for this question.");
+      setHint("No hints left for this question.");
       return;
     }
 
     try {
       const response = await axios.post("https://wip-backend-three.vercel.app/ai-help", { username, question, userQuestion });
-      setCurrentHint(response.data.hint);
+      setHint(`Hint: ${response.data.hint}`);
       setAiHintsLeft((prev: any) => ({
         ...prev,
         [activeQuestionIndex]: Math.max((prev[activeQuestionIndex] || 1) - 1, 0),
       }));
     } catch (error) {
-      setCurrentHint("No AI Help Left");
+      setHint("No AI Help Left");
     }
   };
 
@@ -71,21 +71,21 @@ const Quiz = () => {
       setSubmitted(true);
       localStorage.setItem("quizSubmitted", "true");
       localStorage.setItem("quizScore", response.data.score);
+      alert(`Your score: ${response.data.score}`);
     } catch (error) {
       alert("Submission failed!");
     }
   };
 
+//   <div className="absolute top-0 right-0 bg-black text-white rounded-full px-3 py-1 text-sm">
+//   Hints Left: {3 - Object.keys(aiHintsLeft).length}
+// </div>
   return (
     <div className="relative p-4">
       {submitted ? (
         <div className="mt-4 text-lg">Your score: {score}</div>
       ) : (
         <>
-          {/* Hint Counter */}
-          <div className="absolute top-0 right-0 bg-black text-white rounded-full px-3 py-1 text-sm">
-            Hints Left: {3 - Object.keys(aiHintsLeft).length}
-          </div>
 
           <h2 className="text-xl font-bold mb-2">Quiz</h2>
           {questions.map((q, index) => (
@@ -118,14 +118,6 @@ const Quiz = () => {
                     <span className="text-gray-700">{q[opt]}</span>
                   </label>
                 ))}
-
-                {(currentHint && activeQuestionIndex === index) && (
-                  <div className="bg-yellow-100 p-4 rounded-lg mt-4 shadow-md text-gray-800">
-                    <p className="font-semibold">Hint:</p>
-                    <p>{currentHint}</p>
-                    <Button className="mt-2" onClick={() => setCurrentHint("")}>Close</Button>
-                  </div>
-                )}
               </div>
               <Button className="mt-5" onClick={() => { setActiveQuestionIndex(index); setPromptOpen(true); }}>Ask for Hint</Button>
             </div>
@@ -146,6 +138,22 @@ const Quiz = () => {
           <button className="bg-blue-600 text-white p-2 mt-4" onClick={submitQuiz}>
             Submit
           </button>
+
+          {/* Hint Popover */}
+          {hint && (
+            <div className="fixed inset-0 flex justify-center items-center bg-black/50 backdrop-blur-sm z-50">
+              <div className="bg-white p-6 rounded-lg shadow-xl w-80 text-center">
+                <h3 className="text-lg font-bold text-gray-700 mb-4">Hint</h3>
+                <p className="text-gray-700">{hint}</p>
+                <button
+                  onClick={() => setHint('')}
+                  className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-full"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>
