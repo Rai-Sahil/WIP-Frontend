@@ -79,6 +79,7 @@ const Quiz = () => {
   return (
     <div className="relative p-4">
       {submitted ? (
+        // After submission, only show the score
         <div className="mt-4 text-lg">Your score: {score}</div>
       ) : (
         <>
@@ -92,7 +93,6 @@ const Quiz = () => {
             <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
               {Object.entries(aiHintsLeft).map(([question, hintsLeft]) => {
                 if (question === q["Question"]) {
-                  console.log(hintsLeft)
                   return (
                     <div key={index} className="bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">
                       Prompt Left: {String(hintsLeft)}
