@@ -10,7 +10,7 @@ const Quiz = () => {
   const [submitted, setSubmitted] = useState(localStorage.getItem("quizSubmitted") === "true");
   const [isPromptOpen, setPromptOpen] = useState(false);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState<number>(3);
-  const [aiHintsLeft, setAiHintsLeft] = useState<{ [key: number]: number }>({}); // Store hints left per question
+  const [aiHintsLeft, setAiHintsLeft] = useState<any>({}); // Store hints left per question
 
   const username = localStorage.getItem("username");
 
@@ -33,7 +33,6 @@ const Quiz = () => {
             hintsUsage[question.id] = question.hintsLeft;
           });
           setAiHintsLeft(hintsUsage);
-          console.log(data);
         })
         .catch((error) => console.error("Error fetching AI usage:", error));
     }
@@ -55,7 +54,7 @@ const Quiz = () => {
     try {
       const response = await axios.post("https://wip-backend-three.vercel.app/ai-help", { username, question, userQuestion });
       alert(`Hint: ${response.data.hint}`);
-      setAiHintsLeft((prev) => ({
+      setAiHintsLeft((prev: any) => ({
         ...prev,
         [activeQuestionIndex]: aiHintsLeft[activeQuestionIndex] - 1,
       }));
@@ -81,12 +80,22 @@ const Quiz = () => {
     <div className="relative p-4">
       {/* Hint Counter */}
       <div className="absolute top-0 right-0 bg-black text-white rounded-full px-3 py-1 text-sm">
-        Hints Left: {3 - Object.keys(aiHintsLeft).length || 3}
+        Hints Left: {3 - Object.keys(aiHintsLeft).length}
       </div>
 
       <h2 className="text-xl font-bold mb-2">Quiz</h2>
       {questions.map((q, index) => (
         <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
+
+          {Object.entries(aiHintsLeft).map(([question, hintsLeft]) => {
+            if (question === q["Question"]) {
+              return (
+                <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
+                  Prompts Used : 3                  
+                </div>
+              );
+            }
+          })}
 
           <p className="text-lg font-semibold text-gray-700 mb-2">{q["Question"]}</p>
           <div className="space-y-2">
