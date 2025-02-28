@@ -54,10 +54,6 @@ const Quiz = () => {
     try {
       const response = await axios.post("https://wip-backend-o2g9.onrender.com/ai-help", { username, question, userQuestion });
       alert(`Hint: ${response.data.hint}`);
-      setAiHintsLeft((prev: any) => ({
-        ...prev,
-        [activeQuestionIndex]: aiHintsLeft[activeQuestionIndex] - 1,
-      }));
     } catch (error) {
       alert("No AI Help Left");
     }
