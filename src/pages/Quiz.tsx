@@ -36,7 +36,7 @@ const Quiz = () => {
         })
         .catch((error) => console.error("Error fetching AI usage:", error));
     }
-  }, [username, aiHintsLeft]);
+  }, [username]);
 
   const selectAnswer = (questionIndex: number, option: string) => {
     setSelectedAnswers({ ...selectedAnswers, [questionIndex]: option });
