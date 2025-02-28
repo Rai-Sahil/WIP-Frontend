@@ -28,6 +28,7 @@ const Quiz = () => {
         .then((response) => {
           const data = response.data;
           const hintsUsage: any = {};
+
           data.forEach((question: any) => {
             hintsUsage[question.id] = question.hintsLeft;
           });
@@ -79,13 +80,14 @@ const Quiz = () => {
   return (
     <div className="relative p-4">
       {/* Hint Counter */}
-        <div className="absolute top-0 right-0 bg-black text-white rounded-full px-3 py-1 text-sm">
-          Hints Left: {3 - Object.keys(aiHintsLeft).length || 3}
-        </div>
+      <div className="absolute top-0 right-0 bg-black text-white rounded-full px-3 py-1 text-sm">
+        Hints Left: {3 - Object.keys(aiHintsLeft).length || 3}
+      </div>
 
       <h2 className="text-xl font-bold mb-2">Quiz</h2>
       {questions.map((q, index) => (
         <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
+
           <p className="text-lg font-semibold text-gray-700 mb-2">{q["Question"]}</p>
           <div className="space-y-2">
             {["OptionA", "OptionB", "OptionC", "OptionD"].map((opt) => (
