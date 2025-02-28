@@ -9,13 +9,13 @@ const Quiz = () => {
   const [score, setScore] = useState(localStorage.getItem("quizScore"));
   const [submitted, setSubmitted] = useState(localStorage.getItem("quizSubmitted") === "true");
   const [isPromptOpen, setPromptOpen] = useState(false);
-  const [activeQuestionIndex, setActiveQuestionIndex] = useState<number>(-2);
+  const [activeQuestionIndex, setActiveQuestionIndex] = useState<number>(3);
   const [aiHintsLeft, setAiHintsLeft] = useState<{ [key: number]: number }>({}); // Store hints left per question
 
   const username = localStorage.getItem("username");
 
   useEffect(() => {
-    axios.get("https://wip-backend-git-main-raisahils-projects.vercel.app/questions")
+    axios.get("https://wip-backend-three.vercel.app/questions")
       .then((res) => {
         const fetchedQuestions = res.data;
         setQuestions(fetchedQuestions);
@@ -24,7 +24,7 @@ const Quiz = () => {
 
     // Fetch AI usage data to track hints used for each question
     if (username) {
-      axios.get(`https://wip-backend-git-main-raisahils-projects.vercel.app/ai-usage/${username}`)
+      axios.get(`https://wip-backend-three.vercel.app/ai-usage/${username}`)
         .then((response) => {
           const data = response.data;
           const hintsUsage: any = {};
@@ -52,7 +52,7 @@ const Quiz = () => {
     }
 
     try {
-      const response = await axios.post("https://wip-backend-git-main-raisahils-projects.vercel.app/ai-help", { username, question, userQuestion });
+      const response = await axios.post("https://wip-backend-three.vercel.app/ai-help", { username, question, userQuestion });
       alert(`Hint: ${response.data.hint}`);
       setAiHintsLeft((prev) => ({
         ...prev,
@@ -65,7 +65,7 @@ const Quiz = () => {
 
   const submitQuiz = async () => {
     try {
-      const response = await axios.post("https://wip-backend-git-main-raisahils-projects.vercel.app/submit", { username, answers: selectedAnswers });
+      const response = await axios.post("https://wip-backend-three.vercel.app/submit", { username, answers: selectedAnswers });
       setScore(response.data.score);
       setSubmitted(true);
       localStorage.setItem("quizSubmitted", "true");
@@ -79,11 +79,9 @@ const Quiz = () => {
   return (
     <div className="relative p-4">
       {/* Hint Counter */}
-      {activeQuestionIndex !== -1 && (
         <div className="absolute top-0 right-0 bg-black text-white rounded-full px-3 py-1 text-sm">
-          Hints Left: {3 - Object.keys(aiHintsLeft).length || 10}
+          Hints Left: {3 - Object.keys(aiHintsLeft).length || 3}
         </div>
-      )}
 
       <h2 className="text-xl font-bold mb-2">Quiz</h2>
       {questions.map((q, index) => (
