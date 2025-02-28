@@ -87,8 +87,8 @@ const Quiz = () => {
       {questions.map((q, index) => (
         <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
 
-          {Object.entries(aiHintsLeft).map(([question, hintsUsed]) => {
-            console.log(hintsUsed)
+          {Object.entries(aiHintsLeft).map(([question, hintsLeft]) => {
+            console.log(hintsLeft)
             if (question === q["Question"]) {
               return (
                 <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
