@@ -11,6 +11,7 @@ const Quiz = () => {
   const [isPromptOpen, setPromptOpen] = useState(false);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState<number>(3);
   const [aiHintsLeft, setAiHintsLeft] = useState<any>({}); // Store hints left per question
+  const [currentHint, setCurrentHint] = useState<string>("");
 
   const username = localStorage.getItem("username");
 
@@ -47,19 +48,19 @@ const Quiz = () => {
 
     // Check if hints are available
     if (aiHintsLeft[activeQuestionIndex] <= 0) {
-      alert("No hints left for this question.");
+      setCurrentHint("No hints left for this question.");
       return;
     }
 
     try {
       const response = await axios.post("https://wip-backend-three.vercel.app/ai-help", { username, question, userQuestion });
-      alert(`Hint: ${response.data.hint}`);
+      setCurrentHint(response.data.hint);
       setAiHintsLeft((prev: any) => ({
         ...prev,
         [activeQuestionIndex]: Math.max((prev[activeQuestionIndex] || 1) - 1, 0),
       }));
     } catch (error) {
-      alert("No AI Help Left");
+      setCurrentHint("No AI Help Left");
     }
   };
 
@@ -70,7 +71,6 @@ const Quiz = () => {
       setSubmitted(true);
       localStorage.setItem("quizSubmitted", "true");
       localStorage.setItem("quizScore", response.data.score);
-      alert(`Your score: ${response.data.score}`);
     } catch (error) {
       alert("Submission failed!");
     }
@@ -79,7 +79,6 @@ const Quiz = () => {
   return (
     <div className="relative p-4">
       {submitted ? (
-        // After submission, only show the score
         <div className="mt-4 text-lg">Your score: {score}</div>
       ) : (
         <>
@@ -123,6 +122,15 @@ const Quiz = () => {
               <Button className="mt-5" onClick={() => { setActiveQuestionIndex(index); setPromptOpen(true); }}>Ask for Hint</Button>
             </div>
           ))}
+
+          {/* Custom Hint Box */}
+          {currentHint && (
+            <div className="bg-yellow-100 p-4 rounded-lg mt-4 shadow-md text-gray-800">
+              <p className="font-semibold">Hint:</p>
+              <p>{currentHint}</p>
+              <Button className="mt-2" onClick={() => setCurrentHint("")}>Close</Button>
+            </div>
+          )}
 
           {isPromptOpen && activeQuestionIndex !== -1 && (
             <PromptModal
