@@ -80,7 +80,7 @@ const Quiz = () => {
   return (
     <div className="relative p-4">
       {submitted ? (
-        <div className="mt-4 text-lg">Your score: {score}</div>
+        <div className="mt-4 text-xl">Your score: {score}</div>
       ) : (
         <>
           <div className="absolute top-0 right-0 bg-black text-white rounded-full px-3 py-1 text-sm">
