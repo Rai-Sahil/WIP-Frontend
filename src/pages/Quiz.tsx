@@ -78,67 +78,68 @@ const Quiz = () => {
 
   return (
     <div className="relative p-4">
-      {/* Hint Counter */}
-      <div className="absolute top-0 right-0 bg-black text-white rounded-full px-3 py-1 text-sm">
-        Hints Left: {3 - Object.keys(aiHintsLeft).length}
-      </div>
-
-      <h2 className="text-xl font-bold mb-2">Quiz</h2>
-      {questions.map((q, index) => (
-        <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
-
-          {Object.entries(aiHintsLeft).map(([question, hintsLeft]) => {
-            if (question === q["Question"]) {
-              console.log(hintsLeft)
-              return (
-                <div key={index} className="bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">
-                  Prompt Left: {String(hintsLeft)}
-                </div>
-              );
-            }
-          })}
-
-          <p className="text-lg font-semibold text-gray-700 mb-2">{q["Question"]}</p>
-          <div className="space-y-2">
-            {["OptionA", "OptionB", "OptionC", "OptionD"].map((opt) => (
-              <label
-                key={opt}
-                className="flex items-center space-x-2 p-2 border rounded-lg cursor-pointer hover:bg-blue-50"
-              >
-                <input
-                  type="radio"
-                  name={`question-${index}`}
-                  value={q[opt]}
-                  checked={selectedAnswers[index] === q[opt]}
-                  onChange={() => selectAnswer(index, q[opt])}
-                  className="w-5 h-5 text-blue-600"
-                />
-                <span className="text-gray-700">{q[opt]}</span>
-              </label>
-            ))}
-          </div>
-          <Button className="mt-5" onClick={() => { setActiveQuestionIndex(index); setPromptOpen(true); }}>Ask for Hint</Button>
-        </div>
-      ))}
-
-      {isPromptOpen && activeQuestionIndex !== -1 && (
-        <PromptModal
-          isOpen={isPromptOpen}
-          onClose={() => { setPromptOpen(false); setActiveQuestionIndex(-1); }}
-          onSubmit={(userQuestion) => {
-            getHint(questions[activeQuestionIndex]["Question"], userQuestion);
-            setPromptOpen(false);
-            setActiveQuestionIndex(-1);
-          }}
-        />
-      )}
-
-      {!submitted ? (
-        <button className="bg-blue-600 text-white p-2 mt-4" onClick={submitQuiz}>
-          Submit
-        </button>
+      {submitted ? (
+        <div className="mt-4 text-lg">Your score: {score}</div>
       ) : (
-        <p className="mt-4 text-lg">Your score: {score}</p>
+        <>
+          {/* Hint Counter */}
+          <div className="absolute top-0 right-0 bg-black text-white rounded-full px-3 py-1 text-sm">
+            Hints Left: {3 - Object.keys(aiHintsLeft).length}
+          </div>
+
+          <h2 className="text-xl font-bold mb-2">Quiz</h2>
+          {questions.map((q, index) => (
+            <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
+              {Object.entries(aiHintsLeft).map(([question, hintsLeft]) => {
+                if (question === q["Question"]) {
+                  console.log(hintsLeft)
+                  return (
+                    <div key={index} className="bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">
+                      Prompt Left: {String(hintsLeft)}
+                    </div>
+                  );
+                }
+              })}
+
+              <p className="text-lg font-semibold text-gray-700 mb-2">{q["Question"]}</p>
+              <div className="space-y-2">
+                {["OptionA", "OptionB", "OptionC", "OptionD"].map((opt) => (
+                  <label
+                    key={opt}
+                    className="flex items-center space-x-2 p-2 border rounded-lg cursor-pointer hover:bg-blue-50"
+                  >
+                    <input
+                      type="radio"
+                      name={`question-${index}`}
+                      value={q[opt]}
+                      checked={selectedAnswers[index] === q[opt]}
+                      onChange={() => selectAnswer(index, q[opt])}
+                      className="w-5 h-5 text-blue-600"
+                    />
+                    <span className="text-gray-700">{q[opt]}</span>
+                  </label>
+                ))}
+              </div>
+              <Button className="mt-5" onClick={() => { setActiveQuestionIndex(index); setPromptOpen(true); }}>Ask for Hint</Button>
+            </div>
+          ))}
+
+          {isPromptOpen && activeQuestionIndex !== -1 && (
+            <PromptModal
+              isOpen={isPromptOpen}
+              onClose={() => { setPromptOpen(false); setActiveQuestionIndex(-1); }}
+              onSubmit={(userQuestion) => {
+                getHint(questions[activeQuestionIndex]["Question"], userQuestion);
+                setPromptOpen(false);
+                setActiveQuestionIndex(-1);
+              }}
+            />
+          )}
+
+          <button className="bg-blue-600 text-white p-2 mt-4" onClick={submitQuiz}>
+            Submit
+          </button>
+        </>
       )}
     </div>
   );
