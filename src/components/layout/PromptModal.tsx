@@ -27,7 +27,7 @@ const PromptModal: React.FC<PromptModalProps> = ({ isOpen, onClose, onSubmit }) 
                 />
                 <div className="flex justify-end gap-2 mt-4">
                     <button
-                        className="px-4 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
+                        className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
                         onClick={onClose}
                     >
                     Cancel
