@@ -56,7 +56,7 @@ const Quiz = () => {
       alert(`Hint: ${response.data.hint}`);
       setAiHintsLeft((prev: any) => ({
         ...prev,
-        [activeQuestionIndex]: aiHintsLeft[activeQuestionIndex] - 1,
+        [activeQuestionIndex]: Math.max((prev[activeQuestionIndex] || 1) - 1, 0),
       }));
     } catch (error) {
       alert("No AI Help Left");
