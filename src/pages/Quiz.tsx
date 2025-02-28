@@ -88,11 +88,11 @@ const Quiz = () => {
         <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
 
           {Object.entries(aiHintsLeft).map(([question, hintsLeft]) => {
-            console.log(hintsLeft)
             if (question === q["Question"]) {
+              console.log(hintsLeft)
               return (
-                <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
-                  Prompts Used : 3                  
+                <div key={index} className="bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">
+                  Prompt Left: {String(hintsLeft)}       
                 </div>
               );
             }
