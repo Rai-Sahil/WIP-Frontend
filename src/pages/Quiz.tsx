@@ -77,20 +77,20 @@ const Quiz = () => {
     }
   };
 
-//   <div className="absolute top-0 right-0 bg-black text-white rounded-full px-3 py-1 text-sm">
-//   Hints Left: {3 - Object.keys(aiHintsLeft).length}
-// </div>
   return (
     <div className="relative p-4">
       {submitted ? (
         <div className="mt-4 text-lg">Your score: {score}</div>
       ) : (
         <>
+          <div className="absolute top-0 right-0 bg-black text-white rounded-full px-3 py-1 text-sm">
+            Hints Left: {3 - Object.keys(aiHintsLeft).length}
+          </div>
 
           <h2 className="text-xl font-bold mb-2">Quiz</h2>
           {questions.map((q, index) => (
             <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
-              {Object.entries(aiHintsLeft).map(([question, hintsLeft]) => {
+              {/* {Object.entries(aiHintsLeft).map(([question, hintsLeft]) => {
                 if (question === q["Question"]) {
                   return (
                     <div key={index} className="bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">
@@ -98,7 +98,7 @@ const Quiz = () => {
                     </div>
                   );
                 }
-              })}
+              })} */}
 
               <p className="text-lg font-semibold text-gray-700 mb-2">{q["Question"]}</p>
               <div className="space-y-2">
