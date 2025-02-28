@@ -36,7 +36,7 @@ const Quiz = () => {
         })
         .catch((error) => console.error("Error fetching AI usage:", error));
     }
-  }, [username]);
+  }, [username, aiHintsLeft]);
 
   const selectAnswer = (questionIndex: number, option: string) => {
     setSelectedAnswers({ ...selectedAnswers, [questionIndex]: option });
@@ -92,7 +92,7 @@ const Quiz = () => {
               console.log(hintsLeft)
               return (
                 <div key={index} className="bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">
-                  Prompt Left: {String(hintsLeft)}       
+                  Prompt Left: {String(hintsLeft)}
                 </div>
               );
             }
