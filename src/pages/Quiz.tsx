@@ -119,7 +119,7 @@ const Quiz = () => {
                   </label>
                 ))}
 
-                {currentHint && (
+                {(currentHint && activeQuestionIndex === index) && (
                   <div className="bg-yellow-100 p-4 rounded-lg mt-4 shadow-md text-gray-800">
                     <p className="font-semibold">Hint:</p>
                     <p>{currentHint}</p>
