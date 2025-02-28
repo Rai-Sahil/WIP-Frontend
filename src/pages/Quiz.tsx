@@ -118,19 +118,18 @@ const Quiz = () => {
                     <span className="text-gray-700">{q[opt]}</span>
                   </label>
                 ))}
+
+                {currentHint && (
+                  <div className="bg-yellow-100 p-4 rounded-lg mt-4 shadow-md text-gray-800">
+                    <p className="font-semibold">Hint:</p>
+                    <p>{currentHint}</p>
+                    <Button className="mt-2" onClick={() => setCurrentHint("")}>Close</Button>
+                  </div>
+                )}
               </div>
               <Button className="mt-5" onClick={() => { setActiveQuestionIndex(index); setPromptOpen(true); }}>Ask for Hint</Button>
             </div>
           ))}
-
-          {/* Custom Hint Box */}
-          {currentHint && (
-            <div className="bg-yellow-100 p-4 rounded-lg mt-4 shadow-md text-gray-800">
-              <p className="font-semibold">Hint:</p>
-              <p>{currentHint}</p>
-              <Button className="mt-2" onClick={() => setCurrentHint("")}>Close</Button>
-            </div>
-          )}
 
           {isPromptOpen && activeQuestionIndex !== -1 && (
             <PromptModal
