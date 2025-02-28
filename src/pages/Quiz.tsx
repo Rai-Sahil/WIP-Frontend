@@ -54,10 +54,11 @@ const Quiz = () => {
     try {
       const response = await axios.post("https://wip-backend-three.vercel.app/ai-help", { username, question, userQuestion });
       alert(`Hint: ${response.data.hint}`);
-      setAiHintsLeft((prev: any) => ({
-        ...prev,
-        [activeQuestionIndex]: Math.max((prev[activeQuestionIndex] || 1) - 1, 0),
-      }));
+      setAiHintsLeft((prev: any) => {
+        const updatedHints = { ...prev };
+        updatedHints[activeQuestionIndex] = Math.max((updatedHints[activeQuestionIndex] || 1) - 1, 0);
+        return updatedHints;
+      });
     } catch (error) {
       alert("No AI Help Left");
     }
