@@ -78,7 +78,13 @@ const Quiz = () => {
   };
 
   const handleCloseModal = () => {
-    window.close()
+    if (submitted) {
+      // If the ScoreModal is open, just close the prompt modal
+      setPromptOpen(false);
+    } else {
+      // If it's not submitted yet, close the window
+      window.close();
+    }
   }
 
   return (
