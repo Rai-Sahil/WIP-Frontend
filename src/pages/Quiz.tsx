@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "../components/ui/button";
 import PromptModal from "../components/layout/PromptModal";
-import ScoreModal from "../components/layout/ScorePrompt";
 
 const Quiz = () => {
   const [questions, setQuestions] = useState([]);
@@ -72,25 +71,20 @@ const Quiz = () => {
       setSubmitted(true);
       localStorage.setItem("quizSubmitted", "true");
       localStorage.setItem("quizScore", response.data.score);
+      alert(`Your score: ${response.data.score}`);
+
+      setTimeout(() => {
+        window.close()
+      }, 5000)
     } catch (error) {
       alert("Submission failed!");
     }
   };
 
-  const handleCloseModal = () => {
-    if (submitted) {
-      // If the ScoreModal is open, just close the prompt modal
-      setPromptOpen(false);
-    } else {
-      // If it's not submitted yet, close the window
-      window.close();
-    }
-  }
-
   return (
     <div className="relative p-4">
       {submitted ? (
-        <ScoreModal score={parseInt(score || "0")} onClose={handleCloseModal} />
+        <h1>Your score: {score}</h1>
       ) : (
         <>
           <div className="absolute top-0 right-0 bg-black text-white rounded-full px-3 py-1 text-sm">
