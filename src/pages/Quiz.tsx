@@ -142,12 +142,12 @@ const Quiz = () => {
           {/* Hint Popover */}
           {hint && (
             <div className="fixed inset-0 flex justify-center items-center bg-black/50 backdrop-blur-sm z-50">
-              <div className="bg-white p-6 rounded-lg shadow-xl w-80 text-center">
-                <h3 className="text-lg font-bold text-gray-700 mb-4">Hint</h3>
-                <p className="text-gray-700">{hint}</p>
+              <div className="bg-white p-8 rounded-lg shadow-2xl w-96 text-center">
+                <h4 className="text-xl font-bold text-gray-700 mb-4">Hint</h4>
+                <p className="text-lg text-gray-700">{hint}</p>
                 <button
                   onClick={() => setHint('')}
-                  className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-full"
+                  className="mt-6 bg-blue-600 text-white py-2 px-5 rounded-full text-lg"
                 >
                   Close
                 </button>
