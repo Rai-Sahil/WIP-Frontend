@@ -23,6 +23,9 @@ const Quiz = () => {
       })
       .catch((error) => console.error("Error fetching questions:", error));
 
+  }, [username]);
+
+  useEfect(() => {
     // Fetch AI usage data to track hints used for each question
     if (username) {
       axios.get(`https://wip-backend-three.vercel.app/ai-usage/${username}`)
@@ -37,7 +40,7 @@ const Quiz = () => {
         })
         .catch((error) => console.error("Error fetching AI usage:", error));
     }
-  }, [username]);
+  }, []);
 
   const selectAnswer = (questionIndex: number, option: string) => {
     setSelectedAnswers({ ...selectedAnswers, [questionIndex]: option });
@@ -103,6 +106,11 @@ const Quiz = () => {
                   );
                 }
               })} */}
+
+              {aiHintsLeft.map((id, hintsLeft) => (
+                <div>Prompts left: {hintsLeft}</div>
+              ));
+              }
 
               <p className="text-lg font-semibold text-gray-700 mb-2">{q["Question"]}</p>
               <div className="space-y-2">
