@@ -97,20 +97,16 @@ const Quiz = () => {
           <h2 className="text-xl font-bold mb-2">Quiz</h2>
           {questions.map((q, index) => (
             <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
-              {/* {Object.entries(aiHintsLeft).map(([question, hintsLeft]) => {
-                if (question === q["Question"]) {
+              {Object.entries(aiHintsLeft).map((id, hintsLeft) => {
+                  console.log("Question in prompt is", id)
+                if (id === q["Question"]) {
                   return (
                     <div key={index} className="bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">
                       Prompt Left: {String(hintsLeft)}
                     </div>
                   );
                 }
-              })} */}
-
-              {aiHintsLeft.map((id, hintsLeft) => (
-                <div>Prompts left: {hintsLeft}</div>
-              ));
-              }
+              })}
 
               <p className="text-lg font-semibold text-gray-700 mb-2">{q["Question"]}</p>
               <div className="space-y-2">
