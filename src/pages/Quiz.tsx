@@ -102,7 +102,7 @@ const Quiz = () => {
                 if (question[0] === q["Question"]) {
                   return (
                     <div key={index} className="bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">
-                      Prompt Left: {question[1]}
+                      Prompt Left: {String(question[1])}
                     </div>
                   );
                 }
