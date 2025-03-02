@@ -93,13 +93,13 @@ const Quiz = () => {
           <h2 className="text-xl font-bold mb-2">Quiz</h2>
           {questions.map((q, index) => (
             <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
-              {Object.entries(aiHintsLeft).map(([questionKey, hintsLeft]) => (
+              {/** {Object.entries(aiHintsLeft).map(([questionKey, hintsLeft]) => (
                 questionKey === q["Question"] ? (
                   <div key={questionKey} className="bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">
                     Prompt Left: {String(hintsLeft)}
                   </div>
                 ) : null
-              ))}
+              )) */}
 
               <p className="text-lg font-semibold text-gray-700 mb-2">{q["Question"]}</p>
               <div className="space-y-2">
