@@ -25,7 +25,7 @@ const Quiz = () => {
 
   }, [username]);
 
-  useEfect(() => {
+  useEffect(() => {
     // Fetch AI usage data to track hints used for each question
     if (username) {
       axios.get(`https://wip-backend-three.vercel.app/ai-usage/${username}`)
