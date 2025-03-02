@@ -10,7 +10,6 @@ const Quiz = () => {
   const [submitted, setSubmitted] = useState(localStorage.getItem("quizSubmitted") === "true");
   const [isPromptOpen, setPromptOpen] = useState(false);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState<number>(3);
-  const [activeQuestionString, setActiveQuestionString] = useState<string>("");
   const [aiHintsLeft, setAiHintsLeft] = useState<any>({}); // Store hints left per question
   const [hint, setHint] = useState<string>("");
 
@@ -37,11 +36,7 @@ const Quiz = () => {
           data.forEach((question: any) => {
             hintsUsage[question.id] = question.hintsLeft;
           });
-          setAiHintsLeft((prev: any) => ({
-            ...prev,
-            [activeQuestionString]: Math.max((prev[activeQuestionString] || 1) - 1, 0),
-          }));
-
+          setAiHintsLeft(hintsUsage);
         })
         .catch((error) => console.error("Error fetching AI usage:", error));
     }
@@ -125,11 +120,7 @@ const Quiz = () => {
                   </label>
                 ))}
               </div>
-              <Button className="mt-5" onClick={() => { 
-                  setActiveQuestionIndex(index); 
-                  setPromptOpen(true);
-                  setActiveQuestionString(q["Question"]);
-                }}>Ask for Hint</Button>
+              <Button className="mt-5" onClick={() => { setActiveQuestionIndex(index); setPromptOpen(true); }}>Ask for Hint</Button>
             </div>
           ))}
 
