@@ -75,10 +75,6 @@ const Quiz = () => {
       localStorage.setItem("quizSubmitted", "true");
       localStorage.setItem("quizScore", response.data.score);
       alert(`Your score: ${response.data.score}`);
-
-      setTimeout(() => {
-        window.close()
-      }, 5000)
     } catch (error) {
       alert("Submission failed!");
     }
@@ -97,16 +93,13 @@ const Quiz = () => {
           <h2 className="text-xl font-bold mb-2">Quiz</h2>
           {questions.map((q, index) => (
             <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
-              {Object.entries(aiHintsLeft).map((question) => {
-                  console.log("Question in prompt is", question[0])
-                if (question[0] === q["Question"]) {
-                  return (
-                    <div key={index} className="bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">
-                      Prompt Left: {String(question[1])}
-                    </div>
-                  );
-                }
-              })}
+              {Object.entries(aiHintsLeft).map(([questionKey, hintsLeft]) => (
+                questionKey === q["Question"] ? (
+                  <div key={questionKey} className="bg-primary text-primary-foreground shadow-xs hover:bg-primary/90">
+                    Prompt Left: {String(hintsLeft)}
+                  </div>
+                ) : null
+              ))}
 
               <p className="text-lg font-semibold text-gray-700 mb-2">{q["Question"]}</p>
               <div className="space-y-2">
