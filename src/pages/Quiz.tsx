@@ -36,7 +36,11 @@ const Quiz = () => {
           data.forEach((question: any) => {
             hintsUsage[question.id] = question.hintsLeft;
           });
-          setAiHintsLeft(hintsUsage);
+          setAiHintsLeft((prev: any) => ({
+            ...prev,
+            [activeQuestionIndex]: Math.max((prev[activeQuestionIndex] || 1) - 1, 0),
+          }));
+
         })
         .catch((error) => console.error("Error fetching AI usage:", error));
     }
