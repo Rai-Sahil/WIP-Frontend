@@ -10,6 +10,7 @@ const Quiz = () => {
   const [submitted, setSubmitted] = useState(localStorage.getItem("quizSubmitted") === "true");
   const [isPromptOpen, setPromptOpen] = useState(false);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState<number>(3);
+  const [activeQuestionString, setActivequestionString] = useState<string>("");
   const [aiHintsLeft, setAiHintsLeft] = useState<any>({}); // Store hints left per question
   const [hint, setHint] = useState<string>("");
 
@@ -38,7 +39,7 @@ const Quiz = () => {
           });
           setAiHintsLeft((prev: any) => ({
             ...prev,
-            [activeQuestionIndex]: Math.max((prev[activeQuestionIndex] || 1) - 1, 0),
+            [activeQuestionString]: Math.max((prev[activeQuestionString] || 1) - 1, 0),
           }));
 
         })
@@ -124,7 +125,11 @@ const Quiz = () => {
                   </label>
                 ))}
               </div>
-              <Button className="mt-5" onClick={() => { setActiveQuestionIndex(index); setPromptOpen(true); }}>Ask for Hint</Button>
+              <Button className="mt-5" onClick={() => { 
+                  setActiveQuestionIndex(index); 
+                  setPromptOpen(true);
+                  setActiveQuestionString(q["Question"]);
+                }}>Ask for Hint</Button>
             </div>
           ))}
 
