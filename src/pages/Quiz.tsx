@@ -4,16 +4,16 @@ import { Button } from "../components/ui/button";
 import PromptModal from "../components/layout/PromptModal";
 
 const Quiz = () => {
+  const username = localStorage.getItem("username");
+
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState<any>({});
-  const [score, setScore] = useState(localStorage.getItem("quizScore"));
-  const [submitted, setSubmitted] = useState(localStorage.getItem("quizSubmitted") === "true");
+  const [score, setScore] = useState(localStorage.getItem(`quizScore by ${username}`));
+  const [submitted, setSubmitted] = useState(localStorage.getItem(`quizSubmitted by ${username}`) === "true");
   const [isPromptOpen, setPromptOpen] = useState(false);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState<number>(3);
   const [aiHintsLeft, setAiHintsLeft] = useState<any>({}); // Store hints left per question
   const [hint, setHint] = useState<string>("");
-
-  const username = localStorage.getItem("username");
 
   useEffect(() => {
     axios.get("https://wip-backend-three.vercel.app/questions")
@@ -72,8 +72,8 @@ const Quiz = () => {
       const response = await axios.post("https://wip-backend-three.vercel.app/submit", { username, answers: selectedAnswers });
       setScore(response.data.score);
       setSubmitted(true);
-      localStorage.setItem("quizSubmitted", "true");
-      localStorage.setItem("quizScore", response.data.score);
+      localStorage.setItem(`quizSubmitted by ${username}`, "true");
+      localStorage.setItem(`quizScore by ${username}`, response.data.score);
       alert(`Your score: ${response.data.score}`);
     } catch (error) {
       alert("Submission failed!");
