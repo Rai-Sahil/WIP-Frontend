@@ -19,7 +19,7 @@ const Quiz = () => {
     axios.get("https://wip-backend-three.vercel.app/questions")
       .then((res) => {
         const fetchedQuestions = res.data;
-        setQuestions(fetchedQuestions);
+        setQuestions(fetchedQuestions.questions);
       })
       .catch((error) => console.error("Error fetching questions:", error));
 
