@@ -60,6 +60,11 @@ const Quiz = () => {
       return;
     }
 
+    if (Object.keys(aiHintsLeft).length === 3 && !aiHintsLeft[question]) {
+      setHint("No AI Hints Left");
+      return;
+    }
+
     try {
       const response = await axios.post("https://wip-backend-o2g9.onrender.com/ai-help", { username, question, userQuestion });
       setHint(`Hint: ${response.data.hint}`);
