@@ -111,6 +111,9 @@ const Quiz = () => {
                   </div>
                 ) : null
               )) */}
+              <div className="text-sm text-gray-600 mb-2">
+                Prompts Left: {aiHintsLeft[q["Question"]] !== undefined ? aiHintsLeft[q["Question"]] : 3}
+              </div>
 
               <p className="text-lg font-semibold text-gray-700 mb-2">{q["Question"]}</p>
               <div className="space-y-2">
