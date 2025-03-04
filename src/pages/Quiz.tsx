@@ -16,7 +16,7 @@ const Quiz = () => {
   const [hint, setHint] = useState<string>("");
 
   useEffect(() => {
-    axios.get("https://wip-backend-three.vercel.app/questions")
+    axios.get("https://wip-backend-o2g9.onrender.com/questions")
       .then((res) => {
         const fetchedQuestions = res.data;
         setQuestions(fetchedQuestions.questions);
@@ -28,19 +28,20 @@ const Quiz = () => {
   useEffect(() => {
     // Fetch AI usage data to track hints used for each question
     if (username) {
-      axios.get(`https://wip-backend-three.vercel.app/ai-usage/${username}`)
+      axios.get(`https://wip-backend-o2g9.onrender.com/ai-usage/${username}`)
         .then((response) => {
           const data = response.data;
+          console.log(data)
           const hintsUsage: any = {};
 
-          data.forEach((question: any) => {
+          data.questions.forEach((question: any) => {
             hintsUsage[question.id] = question.hintsLeft;
           });
           setAiHintsLeft(hintsUsage);
         })
         .catch((error) => console.error("Error fetching AI usage:", error));
     }
-  }, []);
+  }, [hint, isPromptOpen]);
 
   const selectAnswer = (questionIndex: number, option: string) => {
     setSelectedAnswers({ ...selectedAnswers, [questionIndex]: option });
@@ -49,19 +50,24 @@ const Quiz = () => {
   const getHint = async (question: string, userQuestion: string) => {
     if (!userQuestion) return;
 
-    // Check if hints are available
     if (aiHintsLeft[activeQuestionIndex] <= 0) {
       setHint("No hints left for this question.");
       return;
     }
 
+    if (Object.keys(aiHintsLeft).length === 3 && aiHintsLeft[activeQuestionIndex] <= 0) {
+      setHint("No AI Hints Left");
+      return;
+    }
+
     try {
-      const response = await axios.post("https://wip-backend-three.vercel.app/ai-help", { username, question, userQuestion });
+      const response = await axios.post("https://wip-backend-o2g9.onrender.com/ai-help", { username, question, userQuestion });
       setHint(`Hint: ${response.data.hint}`);
       setAiHintsLeft((prev: any) => ({
         ...prev,
         [activeQuestionIndex]: Math.max((prev[activeQuestionIndex] || 1) - 1, 0),
       }));
+
     } catch (error) {
       setHint("No AI Help Left");
     }
@@ -69,7 +75,7 @@ const Quiz = () => {
 
   const submitQuiz = async () => {
     try {
-      const response = await axios.post("https://wip-backend-three.vercel.app/submit", { username, answers: selectedAnswers });
+      const response = await axios.post("https://wip-backend-o2g9.onrender.com/submit", { username, answers: selectedAnswers });
       setScore(response.data.score);
       setSubmitted(true);
       localStorage.setItem(`quizSubmitted by ${username}`, "true");
