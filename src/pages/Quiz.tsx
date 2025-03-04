@@ -12,7 +12,7 @@ const Quiz = () => {
   const [submitted, setSubmitted] = useState(localStorage.getItem(`quizSubmitted by ${username}`) === "true");
   const [isPromptOpen, setPromptOpen] = useState(false);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState<number>(3);
-  const [aiHintsLeft, setAiHintsLeft] = useState<any>({}); // Store hints left per question
+  const [aiHintsLeft, setAiHintsLeft] = useState<any>({});
   const [hint, setHint] = useState<string>("");
 
   useEffect(() => {
