@@ -121,7 +121,7 @@ const Quiz = () => {
               <pre className="text-lg font-semibold text-gray-700 mb-2 text-left">{q["Code"]}</pre>
               <div className="space-y-2">
                 {["OptionA", "OptionB", "OptionC", "OptionD"]
-                  .slice(0, index === questions.length - 1 ? 2 : 4) // Show only first 2 options for the last question
+                  .slice(0, parseInt(q["Id"]) === 10 ? 2 : 4) // Show only first 2 options for the last question
                   .map((opt) => (
                     <label
                       key={opt}
