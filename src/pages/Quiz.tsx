@@ -119,26 +119,25 @@ const Quiz = () => {
 
               <div className="text-lg font-semibold text-gray-700 mb-2 whitespace-pre-line">{q["Question"]}</div>
               <div className="space-y-2">
-  {["OptionA", "OptionB", "OptionC", "OptionD"]
-    .slice(index === questions.length - 1 ? 0 : 2) // Show only first 2 options for the last question
-    .map((opt) => (
-      <label
-        key={opt}
-        className="flex items-center space-x-2 p-2 border rounded-lg cursor-pointer hover:bg-blue-50"
-      >
-        <input
-          type="radio"
-          name={`question-${index}`}
-          value={q[opt]}
-          checked={selectedAnswers[index] === q[opt]}
-          onChange={() => selectAnswer(index, q[opt])}
-          className="w-5 h-5 text-blue-600"
-        />
-        <span className="text-gray-700">{q[opt]}</span>
-      </label>
-    ))}
-</div>
-
+                {["OptionA", "OptionB", "OptionC", "OptionD"]
+                  .slice(0, index === questions.length - 1 ? 2 : 4) // Show only first 2 options for the last question
+                  .map((opt) => (
+                    <label
+                      key={opt}
+                      className="flex items-center space-x-2 p-2 border rounded-lg cursor-pointer hover:bg-blue-50"
+                    >
+                      <input
+                        type="radio"
+                        name={`question-${index}`}
+                        value={q[opt]}
+                        checked={selectedAnswers[index] === q[opt]}
+                        onChange={() => selectAnswer(index, q[opt])}
+                        className="w-5 h-5 text-blue-600"
+                      />
+                      <span className="text-gray-700">{q[opt]}</span>
+                    </label>
+                  ))}
+              </div>
               <Button className="mt-5" onClick={() => { setActiveQuestionIndex(index); setPromptOpen(true); }}>Ask for Hint</Button>
             </div>
           ))}
