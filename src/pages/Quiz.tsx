@@ -118,7 +118,7 @@ const Quiz = () => {
               )}
 
               <div className="text-lg font-semibold text-gray-700 mb-2">{q["Question"]}</div>
-              <div className="text-lg font-semibold text-gray-700 mb-2 text-left">{q["Code"]}</div>
+              <div className="text-lg font-semibold text-gray-700 mb-2">{q["Code"]}</div>
               <div className="space-y-2">
                 {["OptionA", "OptionB", "OptionC", "OptionD"]
                   .slice(0, index === questions.length - 1 ? 2 : 4) // Show only first 2 options for the last question
