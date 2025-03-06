@@ -117,7 +117,7 @@ const Quiz = () => {
                 </div>
               )}
 
-              <pre className="text-lg font-semibold text-gray-700 mb-2">{q["Question"]}</pre>
+              <div className="text-lg font-semibold text-gray-700 mb-2 whitespace-pre-line">{q["Question"]}</div>
               <div className="space-y-2">
                 {["OptionA", "OptionB", "OptionC", "OptionD"].map((opt) => (
                   <label
